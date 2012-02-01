@@ -83,7 +83,7 @@
 		var $this = $(this),
 			field = $this.closest('.field');
 		
-		if($this.val() == 'gcx_acf_address') {
+		if($this.val() == 'address-field') {
 			init_address_layout( $('.address_layout', field) );
 		}
 	});

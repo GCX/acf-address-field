@@ -2,14 +2,14 @@
 
 
 /* Field Options Screen */
-tr.field_option_gcx_acf_address .address_layout ul {
+tr.field_option_address-field .address_layout ul {
 	list-style-type: none;
 	border: 1px solid #999999;
 	background-color: #AAAAAA;
 	min-height: 36px;
 }
 
-tr.field_option_gcx_acf_address .address_layout li {
+tr.field_option_address-field .address_layout li {
 	display: inline-block;
 	margin: 3px;
 	padding: 5px;
@@ -20,12 +20,12 @@ tr.field_option_gcx_acf_address .address_layout li {
 	cursor: move;
 }
 
-tr.field_option_gcx_acf_address .address_layout li.placeholder {
+tr.field_option_address-field .address_layout li.placeholder {
 	border: 1px dashed #333333;
 	background-color: #FFFFFF;
 }
 
-tr.field_option_gcx_acf_address .address_layout li.disabled {
+tr.field_option_address-field .address_layout li.disabled {
 	display: none;
 }
 

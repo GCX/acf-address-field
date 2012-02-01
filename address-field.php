@@ -115,7 +115,7 @@ class ACF_Address_Field extends acf_Field {
 		$this->base_uri_rel = '/' . implode( '/', $parts );
 		$this->base_uri_abs = get_site_url( null, $this->base_uri_rel );
 		
-		$this->name        = 'gcx_acf_address';
+		$this->name        = 'address-field';
 		$this->title       = __( 'Address', self::L10N_DOMAIN );
 		
 		$this->address_defaults = array(
