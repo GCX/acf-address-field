@@ -47,14 +47,6 @@ if( !class_exists( 'ACF_Address_Field' ) && class_exists( 'acf_Field' ) ) :
  */
 class ACF_Address_Field extends acf_Field {
 	/**
-	 * WordPress Localization Text Domain
-	 * 
-	 * Used in wordpress localization and translation methods.
-	 * @var string
-	 */
-	const L10N_DOMAIN = 'acf-address-field';
-	
-	/**
 	 * Base directory
 	 * @var string
 	 */
@@ -73,6 +65,14 @@ class ACF_Address_Field extends acf_Field {
 	 * @var string
 	 */
 	private $base_uri_abs;
+
+	/**
+	* WordPress Localization Text Domain
+	*
+	* The textdomain for the field is controlled by the helper class.
+	* @var string
+	*/
+	private $l10n_domain;
 	
 	/**
 	 * Address Field Defaults
@@ -101,6 +101,9 @@ class ACF_Address_Field extends acf_Field {
 	public function __construct( $parent ) {
 		parent::__construct( $parent );
 		
+		//Get the textdomain from the Helper class
+		$this->l10n_domain = ACF_Address_Field_Helper::L10N_DOMAIN;
+		
 		$this->base_dir = rtrim( dirname( realpath( __FILE__ ) ), '/' );
 		
 		//Build the base relative uri by searching backwards until we encounter the wordpress ABSPATH
@@ -116,53 +119,53 @@ class ACF_Address_Field extends acf_Field {
 		$this->base_uri_abs = get_site_url( null, $this->base_uri_rel );
 		
 		$this->name        = 'address-field';
-		$this->title       = __( 'Address', self::L10N_DOMAIN );
+		$this->title       = __( 'Address', $this->l10n_domain );
 		
 		$this->address_defaults = array(
 			'address1'    => array(
-				'label'         => __( 'Address 1', self::L10N_DOMAIN ),
+				'label'         => __( 'Address 1', $this->l10n_domain ),
 				'default_value' => '',
 				'enabled'       => 1,
 				'class'         => 'address1',
 				'separator'     => '',
 			),
 			'address2'    => array(
-				'label'         => __( 'Address 2', self::L10N_DOMAIN ),
+				'label'         => __( 'Address 2', $this->l10n_domain ),
 				'default_value' => '',
 				'enabled'       => 1,
 				'class'         => 'address2',
 				'separator'     => '',
 			),
 			'address3'    => array(
-				'label'         => __( 'Address 3', self::L10N_DOMAIN ),
+				'label'         => __( 'Address 3', $this->l10n_domain ),
 				'default_value' => '',
 				'enabled'       => 1,
 				'class'         => 'address3',
 				'separator'     => '',
 			),
 			'city'        => array(
-				'label'         => __( 'City', self::L10N_DOMAIN ),
+				'label'         => __( 'City', $this->l10n_domain ),
 				'default_value' => '',
 				'enabled'       => 1,
 				'class'         => 'city',
 				'separator'     => ',',
 			),
 			'state'       => array(
-				'label'         => __( 'State', self::L10N_DOMAIN ),
+				'label'         => __( 'State', $this->l10n_domain ),
 				'default_value' => '',
 				'enabled'       => 1,
 				'class'         => 'state',
 				'separator'     => '',
 			),
 			'postal_code' => array(
-				'label'         => __( 'Postal Code', self::L10N_DOMAIN ),
+				'label'         => __( 'Postal Code', $this->l10n_domain ),
 				'default_value' => '',
 				'enabled'       => 1,
 				'class'         => 'postal_code',
 				'separator'     => '',
 			),
 			'country'     => array(
-				'label'         => __( 'Country', self::L10N_DOMAIN ),
+				'label'         => __( 'Country', $this->l10n_domain ),
 				'default_value' => '',
 				'enabled'       => 1,
 				'class'         => 'country',
@@ -263,29 +266,29 @@ class ACF_Address_Field extends acf_Field {
 		?>
 			<tr class="field_option field_option_<?php echo $this->name; ?>">
 				<td class="label">
-					<label><?php _e( 'Address Fields' , self::L10N_DOMAIN ); ?></label>
-					<p class="description"><?php _e( 'Fields, labels and default values', self::L10N_DOMAIN ); ?></p>
+					<label><?php _e( 'Address Fields' , $this->l10n_domain ); ?></label>
+					<p class="description"><?php _e( 'Fields, labels and default values', $this->l10n_domain ); ?></p>
 				</td>
 				<td>
 					<table>
 						<thead>
 							<tr>
-								<th><?php _e( 'Field', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'Enabled', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'Label', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'Default Value', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'CSS Class', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'Separator', self::L10N_DOMAIN ); ?></th>
+								<th><?php _e( 'Field', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'Enabled', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'Label', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'Default Value', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'CSS Class', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'Separator', $this->l10n_domain ); ?></th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
-								<th><?php _e( 'Field', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'Enabled', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'Label', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'Default Value', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'CSS Class', self::L10N_DOMAIN ); ?></th>
-								<th><?php _e( 'Separator', self::L10N_DOMAIN ); ?></th>
+								<th><?php _e( 'Field', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'Enabled', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'Label', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'Default Value', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'CSS Class', $this->l10n_domain ); ?></th>
+								<th><?php _e( 'Separator', $this->l10n_domain ); ?></th>
 							</tr>
 						</tfoot>
 						<tbody>
@@ -361,7 +364,7 @@ class ACF_Address_Field extends acf_Field {
 							foreach( $layout as $layout_row ) :
 								if( count( $layout_row ) <= 0 ) continue;
 						?>
-							<label><?php printf( __( 'Line %d:', self::L10N_DOMAIN ), $row + 1 ); ?></label>
+							<label><?php printf( __( 'Line %d:', $this->l10n_domain ), $row + 1 ); ?></label>
 							<ul class="row">
 								<?php
 									$col = 0;
@@ -386,11 +389,11 @@ class ACF_Address_Field extends acf_Field {
 							endforeach;
 							for( ; $row < 4; $row++ ) :
 						?>
-							<label><?php printf( __( 'Line %d:', self::L10N_DOMAIN ), $row + 1 ); ?></label>
+							<label><?php printf( __( 'Line %d:', $this->l10n_domain ), $row + 1 ); ?></label>
 							<ul class="row">
 							</ul>
 						<?php endfor; ?>
-						<label><?php _e( 'Not Displayed:', self::L10N_DOMAIN ); ?></label>
+						<label><?php _e( 'Not Displayed:', $this->l10n_domain ); ?></label>
 						<ul class="row missing">
 							<?php foreach( $missing as $name ) : ?>
 								<li class="item <?php echo $fields[ $name ][ 'enabled' ] ? '' : 'disabled'; ?>" name="<?php echo $name; ?>">
@@ -466,31 +469,42 @@ class ACF_Address_Field extends acf_Field {
 
 endif; //class_exists 'ACF_Address_Field'
 
-if( !class_exists( 'ACF_Address_Field_Loader' ) ) :
+if( !class_exists( 'ACF_Address_Field_Helper' ) ) :
 
 /**
- * Global ConneXion - Advanced Custom Fields - Address Field Loader
+ * Advanced Custom Fields - Address Field Helper
  * 
- * This class is a singleton thats primary job is to register the Address Field
- * with Advanced Custom Fields. Developers using this field do not need to worry
- * about how to register it with Advanced Custom Fields. Simply include this 
- * php file and the ACF_Address_Field_Loader does the rest.
+ * This class is a Helper for the ACF_Address_Field class.
+ * 
+ * It provides:
+ * Localization support and registering the textdomain with WordPress.
+ * Registering the address field with Advanced Custom Fields. There is no need in your plugin or theme
+ * to manually call the register_field() method, just include this file.
  * <code> include_once( rtrim( dirname( __FILE__ ), '/' ) . '/acf-address-field/address-field.php' ); </code>
  * 
  * @author Brian Zoetewey <brian.zoetewey@ccci.org>
+ * @todo Provide shortcode support for address fields
  */
-class ACF_Address_Field_Loader {
+class ACF_Address_Field_Helper {
+	/**
+	* WordPress Localization Text Domain
+	*
+	* Used in wordpress localization and translation methods.
+	* @var string
+	*/
+	const L10N_DOMAIN = 'acf-address-field';
+	
 	/**
 	 * Singleton instance
-	 * @var ACF_Address_Field_Loader
+	 * @var ACF_Address_Field_Helper
 	 */
 	private static $instance;
 	
 	/**
-	 * Returns the ACF_Address_Field_Loader singleton
+	 * Returns the ACF_Address_Field_Helper singleton
 	 * 
-	 * <code>$obj = ACF_Address_Field_Loader::singleton();</code>
-	 * @return ACF_Address_Field_Loader
+	 * <code>$obj = ACF_Address_Field_Helper::singleton();</code>
+	 * @return ACF_Address_Field_Helper
 	 */
 	public static function singleton() {
 		if( !isset( self::$instance ) ) {
@@ -501,17 +515,28 @@ class ACF_Address_Field_Loader {
 	}
 	
 	/**
-	 * Prevent cloning of the ACF_Address_Field_Loader object
+	 * Prevent cloning of the ACF_Address_Field_Helper object
 	 * @internal
 	 */
 	private function __clone() {
 	}
 	
 	/**
+	 * Language directory path
+	 * 
+	 * Used to build the path for WordPress localization files.
+	 * @var string
+	 */
+	private $lang_dir;
+	
+	/**
 	 * Constructor
 	 */
 	private function __construct() {
+		$this->lang_dir = rtrim( dirname( realpath( __FILE__ ) ), '/' ) . '/languages';
+		
 		add_action( 'init', array( &$this, 'register_address_field' ), 5, 0 );
+		add_action( 'init', array( &$this, 'load_textdomain' ),        2, 0 );
 	}
 	
 	/**
@@ -522,8 +547,17 @@ class ACF_Address_Field_Loader {
 			register_field( 'ACF_Address_Field', __FILE__ );
 		}
 	}
+	
+	/**
+	* Loads the textdomain for the current locale if it exists
+	*/
+	public function load_textdomain() {
+		$locale = get_locale();
+		$mofile = $this->lang_dir . '/' . self::L10N_DOMAIN . '-' . $locale . '.mo';
+		load_textdomain( self::L10N_DOMAIN, $mofile );
+	}
 }
-endif; //class_exists 'ACF_Address_Field_Loader'
+endif; //class_exists 'ACF_Address_Field_Helper'
 
-//Instantiate the Addon Loader class
-ACF_Address_Field_Loader::singleton();
+//Instantiate the Addon Helper class
+ACF_Address_Field_Helper::singleton();
