@@ -265,7 +265,13 @@ class ACF_Address_Field extends acf_Field {
 			<tr class="field_option field_option_<?php echo $this->name; ?>">
 				<td class="label">
 					<label><?php _e( 'Address Fields' , $this->l10n_domain ); ?></label>
-					<p class="description"><?php _e( 'Fields, labels and default values', $this->l10n_domain ); ?></p>
+					<p class="description">
+						<strong><?php _e( 'Enabled', $this->l10n_domain ); ?></strong>: <?php _e( 'Is this field used.', $this->l10n_domain ); ?><br />
+						<strong><?php _e( 'Label', $this->l10n_domain ); ?></strong>: <?php _e( 'Used on the add or edit a post screen.', $this->l10n_domain ); ?><br />
+						<strong><?php _e( 'Default Value', $this->l10n_domain ); ?></strong>: <?php _e( 'Default value for this field.', $this->l10n_domain ); ?><br />
+						<strong><?php _e( 'CSS Class', $this->l10n_domain ); ?></strong>: <?php _e( 'Class added to the field when using the api.', $this->l10n_domain ); ?><br />
+						<strong><?php _e( 'Separator', $this->l10n_domain ); ?></strong>: <?php _e( 'Text placed after the field when using the api.', $this->l10n_domain ); ?><br />
+					</p>
 				</td>
 				<td>
 					<table>
