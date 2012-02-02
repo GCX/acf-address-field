@@ -75,8 +75,6 @@
 				update_item_layout(ui.item);
 			}
 		}).disableSelection();
-		
-		console.log(address_layout);
 	}
 	
 	$('#acf_fields .field_type select.select').live('change', function() {
