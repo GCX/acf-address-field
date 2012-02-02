@@ -22,7 +22,9 @@ See [Field input defaults removed when clicking Add Field.](http://www.advancedc
 Usage
 -------
 
-* Download or clone the acf-address-field repo to your plugin or theme.
+* Download or clone the acf-address-field repo to your plugin or theme:
+  * [acf-address-field.zip](https://github.com/GCX/acf-address-field/zipball/master) or
+  * `git clone git://github.com/GCX/acf-taxonomy-field.git acf-ddress-field`
 * Include the `address-field.php` file:  
   `include_once( rtrim( dirname( __FILE__ ), '/' ) . '/acf-address-field/address-field.php' );`
 
@@ -32,3 +34,8 @@ Todo
 * Add and Remove additional address components.
 * Builtin Shortcode to render address field. Shortcode will also allow printing individual
   address components.
+
+Issues
+-------
+
+Report any issues or feature requests [here](https://github.com/GCX/acf-address-field/issues).
