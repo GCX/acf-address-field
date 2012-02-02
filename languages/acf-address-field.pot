@@ -1,0 +1,111 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version:  \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/acf-address-field\n"
+"POT-Creation-Date: 2012-02-02 21:08:21+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: address-field.php:102
+msgid "Address"
+msgstr ""
+
+#: address-field.php:154
+msgid "Address 1"
+msgstr ""
+
+#: address-field.php:161
+msgid "Address 2"
+msgstr ""
+
+#: address-field.php:168
+msgid "Address 3"
+msgstr ""
+
+#: address-field.php:175
+msgid "City"
+msgstr ""
+
+#: address-field.php:182
+msgid "State"
+msgstr ""
+
+#: address-field.php:189
+msgid "Postal Code"
+msgstr ""
+
+#: address-field.php:196
+msgid "Country"
+msgstr ""
+
+#: address-field.php:267
+msgid "Address Components"
+msgstr ""
+
+#: address-field.php:269 address-field.php:281 address-field.php:291
+msgid "Enabled"
+msgstr ""
+
+#: address-field.php:269
+msgid "Is this component used."
+msgstr ""
+
+#: address-field.php:270 address-field.php:282 address-field.php:292
+msgid "Label"
+msgstr ""
+
+#: address-field.php:270
+msgid "Used on the add or edit a post screen."
+msgstr ""
+
+#: address-field.php:271 address-field.php:283 address-field.php:293
+msgid "Default Value"
+msgstr ""
+
+#: address-field.php:271
+msgid "Default value for this component."
+msgstr ""
+
+#: address-field.php:272 address-field.php:284 address-field.php:294
+msgid "CSS Class"
+msgstr ""
+
+#: address-field.php:272
+msgid "Class added to the component when using the api."
+msgstr ""
+
+#: address-field.php:273 address-field.php:285 address-field.php:295
+msgid "Separator"
+msgstr ""
+
+#: address-field.php:273
+msgid "Text placed after the component when using the api."
+msgstr ""
+
+#: address-field.php:280 address-field.php:290
+msgid "Field"
+msgstr ""
+
+#: address-field.php:360
+msgid "Address Layout"
+msgstr ""
+
+#: address-field.php:361
+msgid ""
+"Drag address components to the desired location. This controls the layout of "
+"the address in post metaboxes and the get_field() api method."
+msgstr ""
+
+#: address-field.php:371 address-field.php:396
+msgid "Line %d:"
+msgstr ""
+
+#: address-field.php:400
+msgid "Not Displayed:"
+msgstr ""
