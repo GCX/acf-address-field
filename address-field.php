@@ -35,8 +35,8 @@ if( !class_exists( 'ACF_Address_Field' ) && class_exists( 'acf_Field' ) ) :
  * Global ConneXion - Advanced Custom Fields - Address Field
  * 
  * This addon to Advanced Custom Fields adds the capability for
- * a multi-field address input. It has the ability to customize the
- * individual fields and the layout of the address block.
+ * a multi-component address input. It has the ability to customize the
+ * individual components and the layout of the address block.
  * 
  * This addon is self loading, just include the address-field.php file
  * in your functions.php or plugin and it will register itself with
@@ -149,7 +149,7 @@ class ACF_Address_Field extends acf_Field {
 	* @return array
 	*/
 	private function set_field_defaults( &$field ) {
-		$address_defaults = array(
+		$component_defaults = array(
 			'address1'    => array(
 				'label'         => __( 'Address 1', $this->l10n_domain ),
 				'default_value' => '',
@@ -208,9 +208,9 @@ class ACF_Address_Field extends acf_Field {
 			3 => array( 0 => 'city', 1 => 'state', 2 => 'postal_code', 3 => 'country' ),
 		);
 		
-		$field[ 'address_fields' ] = ( array_key_exists( 'address_fields' , $field ) && is_array( $field[ 'address_fields' ] ) ) ?
-			wp_parse_args( (array) $field[ 'address_fields' ], $address_defaults ) :
-			$address_defaults;
+		$field[ 'address_components' ] = ( array_key_exists( 'address_components' , $field ) && is_array( $field[ 'address_components' ] ) ) ?
+			wp_parse_args( (array) $field[ 'address_components' ], $component_defaults ) :
+			$component_defaults;
 		
 		$field[ 'address_layout' ] = ( array_key_exists( 'address_layout', $field ) && is_array( $field[ 'address_layout' ] ) ) ?
 			(array) $field[ 'address_layout' ] : $layout_defaults;
@@ -226,7 +226,7 @@ class ACF_Address_Field extends acf_Field {
 	public function create_field( $field ) {
 		$this->set_field_defaults( $field );
 		
-		$fields = $field[ 'address_fields' ];
+		$components = $field[ 'address_components' ];
 		$layout = $field[ 'address_layout' ];
 		$values = (array) $field[ 'value' ];
 
@@ -234,9 +234,9 @@ class ACF_Address_Field extends acf_Field {
 		<div class="address">
 		<?php foreach( $layout as $layout_row ) : if( empty($layout_row) ) continue; ?>
 			<div class="address_row">
-			<?php foreach( $layout_row as $name ) : if( empty( $name ) || !$fields[ $name ][ 'enabled' ] ) continue; ?>
-				<label class="<?php echo $fields[ $name ][ 'class' ]; ?>">
-					<?php echo $fields[ $name ][ 'label' ]; ?>
+			<?php foreach( $layout_row as $name ) : if( empty( $name ) || !$components[ $name ][ 'enabled' ] ) continue; ?>
+				<label class="<?php echo $components[ $name ][ 'class' ]; ?>">
+					<?php echo $components[ $name ][ 'label' ]; ?>
 					<input type="text" id="<?php echo $field[ 'name' ]; ?>[<?php echo $name; ?>]" name="<?php echo $field[ 'name' ]; ?>[<?php echo $name; ?>]" value="<?php echo esc_attr( $values[ $name ] ); ?>" />
 				</label>
 				<?php endforeach; ?>
@@ -257,20 +257,20 @@ class ACF_Address_Field extends acf_Field {
 	public function create_options( $key, $field ) {
 		$this->set_field_defaults( $field );
 		
-		$fields = $field[ 'address_fields' ];
+		$components = $field[ 'address_components' ];
 		$layout = $field[ 'address_layout' ];
-		$missing = array_keys( $fields );
+		$missing = array_keys( $components );
 		
 		?>
 			<tr class="field_option field_option_<?php echo $this->name; ?>">
 				<td class="label">
-					<label><?php _e( 'Address Fields' , $this->l10n_domain ); ?></label>
+					<label><?php _e( 'Address Components' , $this->l10n_domain ); ?></label>
 					<p class="description">
-						<strong><?php _e( 'Enabled', $this->l10n_domain ); ?></strong>: <?php _e( 'Is this field used.', $this->l10n_domain ); ?><br />
+						<strong><?php _e( 'Enabled', $this->l10n_domain ); ?></strong>: <?php _e( 'Is this component used.', $this->l10n_domain ); ?><br />
 						<strong><?php _e( 'Label', $this->l10n_domain ); ?></strong>: <?php _e( 'Used on the add or edit a post screen.', $this->l10n_domain ); ?><br />
-						<strong><?php _e( 'Default Value', $this->l10n_domain ); ?></strong>: <?php _e( 'Default value for this field.', $this->l10n_domain ); ?><br />
-						<strong><?php _e( 'CSS Class', $this->l10n_domain ); ?></strong>: <?php _e( 'Class added to the field when using the api.', $this->l10n_domain ); ?><br />
-						<strong><?php _e( 'Separator', $this->l10n_domain ); ?></strong>: <?php _e( 'Text placed after the field when using the api.', $this->l10n_domain ); ?><br />
+						<strong><?php _e( 'Default Value', $this->l10n_domain ); ?></strong>: <?php _e( 'Default value for this component.', $this->l10n_domain ); ?><br />
+						<strong><?php _e( 'CSS Class', $this->l10n_domain ); ?></strong>: <?php _e( 'Class added to the component when using the api.', $this->l10n_domain ); ?><br />
+						<strong><?php _e( 'Separator', $this->l10n_domain ); ?></strong>: <?php _e( 'Text placed after the component when using the api.', $this->l10n_domain ); ?><br />
 					</p>
 				</td>
 				<td>
@@ -296,14 +296,14 @@ class ACF_Address_Field extends acf_Field {
 							</tr>
 						</tfoot>
 						<tbody>
-							<?php foreach( $fields as $name => $settings ) : ?>
+							<?php foreach( $components as $name => $settings ) : ?>
 								<tr>
 									<td><?php echo $name; ?></td>
 									<td>
 										<?php
 											$this->parent->create_field( array(
 												'type'  => 'true_false',
-												'name'  => "fields[{$key}][address_fields][{$name}][enabled]",
+												'name'  => "fields[{$key}][address_components][{$name}][enabled]",
 												'value' => $settings[ 'enabled' ],
 												'class' => 'address_enabled',
 											) );
@@ -313,7 +313,7 @@ class ACF_Address_Field extends acf_Field {
 										<?php
 											$this->parent->create_field( array(
 												'type'  => 'text',
-												'name'  => "fields[{$key}][address_fields][{$name}][label]",
+												'name'  => "fields[{$key}][address_components][{$name}][label]",
 												'value' => $settings[ 'label' ],
 												'class' => 'address_label',
 											) );
@@ -323,7 +323,7 @@ class ACF_Address_Field extends acf_Field {
 										<?php
 											$this->parent->create_field( array(
 												'type'  => 'text',
-												'name'  => "fields[{$key}][address_fields][{$name}][default_value]",
+												'name'  => "fields[{$key}][address_components][{$name}][default_value]",
 												'value' => $settings[ 'default_value' ],
 												'class' => 'address_default_value',
 											) );
@@ -333,7 +333,7 @@ class ACF_Address_Field extends acf_Field {
 										<?php
 											$this->parent->create_field( array(
 												'type'  => 'text',
-												'name'  => "fields[{$key}][address_fields][{$name}][class]",
+												'name'  => "fields[{$key}][address_components][{$name}][class]",
 												'value' => $settings[ 'class' ],
 												'class' => 'address_class',
 											) );
@@ -343,7 +343,7 @@ class ACF_Address_Field extends acf_Field {
 										<?php
 											$this->parent->create_field( array(
 												'type'  => 'text',
-												'name'  => "fields[{$key}][address_fields][{$name}][separator]",
+												'name'  => "fields[{$key}][address_components][{$name}][separator]",
 												'value' => $settings[ 'separator' ],
 												'class' => 'address_separator',
 											) );
@@ -358,7 +358,7 @@ class ACF_Address_Field extends acf_Field {
 			<tr class="field_option field_option_<?php echo $this->name; ?>">
 				<td class="label">
 					<label><?php _e( 'Address Layout' , $this->l10n_domain ); ?></label>
-					<p class="description"><?php _e( 'Drag address peices to the desired location. This controls the layout of the address in post metaboxes and the get_field() api method.', 'acf' ); ?></p>
+					<p class="description"><?php _e( 'Drag address components to the desired location. This controls the layout of the address in post metaboxes and the get_field() api method.', $this->l10n_domain ); ?></p>
 					<input type="hidden" name="address_layout_key" value="<?php echo $key; ?>" />
 				</td>
 				<td>
@@ -374,13 +374,13 @@ class ACF_Address_Field extends acf_Field {
 									$col = 0;
 									foreach( $layout_row as $name ) :
 										if( empty( $name ) ) continue;
-										if( !$fields[ $name ][ 'enabled' ] ) continue;
+										if( !$components[ $name ][ 'enabled' ] ) continue;
 										
 										if( ( $index = array_search( $name, $missing, true ) ) !== false )
 											array_splice( $missing, $index, 1 );
 								?>
 									<li class="item" name="<?php echo $name; ?>">
-										<?php echo $fields[ $name ][ 'label' ]; ?>
+										<?php echo $components[ $name ][ 'label' ]; ?>
 										<input type="hidden" name="<?php echo "fields[{$key}][address_layout][{$row}][{$col}]"?>" value="<?php echo $name; ?>" />
 									</li>
 								<?php
@@ -400,8 +400,8 @@ class ACF_Address_Field extends acf_Field {
 						<label><?php _e( 'Not Displayed:', $this->l10n_domain ); ?></label>
 						<ul class="row missing">
 							<?php foreach( $missing as $name ) : ?>
-								<li class="item <?php echo $fields[ $name ][ 'enabled' ] ? '' : 'disabled'; ?>" name="<?php echo $name; ?>">
-									<?php echo $fields[ $name ][ 'label' ]; ?>
+								<li class="item <?php echo $components[ $name ][ 'enabled' ] ? '' : 'disabled'; ?>" name="<?php echo $name; ?>">
+									<?php echo $components[ $name ][ 'label' ]; ?>
 								</li>
 							<?php endforeach; ?>
 						</ul>
@@ -422,10 +422,10 @@ class ACF_Address_Field extends acf_Field {
 	public function get_value( $post_id, $field ) {
 		$this->set_field_defaults( $field );
 		
-		$fields = $field[ 'address_fields' ];
+		$components = $field[ 'address_components' ];
 		
 		$defaults = array();
-		foreach( $fields as $name => $settings )
+		foreach( $components as $name => $settings )
 			$defaults[ $name ] = $settings[ 'default_value' ];
 		
 		$value = (array) parent::get_value( $post_id, $field );
@@ -444,7 +444,7 @@ class ACF_Address_Field extends acf_Field {
 	public function get_value_for_api( $post_id, $field ) {
 		$this->set_field_defaults( $field );
 		
-		$fields = $field[ 'address_fields' ];
+		$components = $field[ 'address_components' ];
 		$layout = $field[ 'address_layout' ];
 		
 		$values = $this->get_value( $post_id, $field );
@@ -454,12 +454,12 @@ class ACF_Address_Field extends acf_Field {
 			if( empty( $layout_row ) ) continue;
 			$output .= '<div class="address_row">';
 			foreach( $layout_row as $name ) {
-				if( empty( $name ) || !$fields[ $name ][ 'enabled' ] ) continue;
+				if( empty( $name ) || !$components[ $name ][ 'enabled' ] ) continue;
 					$output .= sprintf(
 						'<span %2$s>%1$s%3$s </span>',
 						$values[ $name ],
-						$fields[ $name ][ 'class' ] ? 'class="' . esc_attr( $fields[ $name ][ 'class' ] ) . '"' : '',
-						$fields[ $name ][ 'separator' ] ? esc_html( $fields[ $name ][ 'separator' ] ) : ''
+						$components[ $name ][ 'class' ] ? 'class="' . esc_attr( $components[ $name ][ 'class' ] ) . '"' : '',
+						$components[ $name ][ 'separator' ] ? esc_html( $components[ $name ][ 'separator' ] ) : ''
 					);
 			}
 			$output .= '</div>';
