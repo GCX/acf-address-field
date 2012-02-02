@@ -75,26 +75,6 @@ class ACF_Address_Field extends acf_Field {
 	private $l10n_domain;
 	
 	/**
-	 * Address Field Defaults
-	 * 
-	 * This variable is instantiated in the class constructor in
-	 * order to make use of WordPress localization methods.
-	 * @var array
-	 */
-	private $address_defaults; 
-	
-	/**
-	 * Address Field Default Layout
-	 * @var array
-	 */
-	private $address_default_layout = array(
-		0 => array( 0 => 'address1' ),
-		1 => array( 0 => 'address2' ),
-		2 => array( 0 => 'address3' ),
-		3 => array( 0 => 'city', 1 => 'state', 2 => 'postal_code', 3 => 'country' ),
-	);
-	
-	/**
 	 * Class Constructor - Instantiates a new Address Field
 	 * @param Acf $parent Parent Acf class
 	 */
@@ -118,10 +98,58 @@ class ACF_Address_Field extends acf_Field {
 		$this->base_uri_rel = '/' . implode( '/', $parts );
 		$this->base_uri_abs = get_site_url( null, $this->base_uri_rel );
 		
-		$this->name        = 'address-field';
-		$this->title       = __( 'Address', $this->l10n_domain );
+		$this->name  = 'address-field';
+		$this->title = __( 'Address', $this->l10n_domain );
 		
-		$this->address_defaults = array(
+		add_action( 'admin_print_scripts', array( &$this, 'admin_print_scripts' ), 12, 0 );
+		add_action( 'admin_print_styles', array( &$this, 'admin_print_styles' ), 12, 0 );
+	}
+	
+	/**
+	 * Registers and enqueues necessary CSS
+	 * 
+	 * This method is called by ACF when rendering a post add or edit screen.
+	 * We also call this method on the Acf Field Options screen as well in order
+	 * to style out Field options
+	 * 
+	 * @see acf_Field::admin_print_styles()
+	 */
+	public function admin_print_styles() {
+		global $pagenow;
+
+		wp_register_style( 'acf-address-field', $this->base_uri_abs . '/address-field.css' );
+		
+		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			wp_enqueue_style( 'acf-address-field' );
+		}
+	}
+	
+	/**
+	 * Registers and enqueues necessary JavaScript
+	 * 
+	 * This method is called by ACF when rendering a post add or edit screen.
+	 * We also call this method on the Acf Field Options screen as well in order
+	 * to add the necessary JavaScript for address layout.
+	 * 
+	 * @see acf_Field::admin_print_scripts()
+	 */
+	public function admin_print_scripts() {
+		global $pagenow;
+		wp_register_script( 'acf-address-field', $this->base_uri_abs . '/address-field.js', array( 'jquery-ui-sortable' ) );
+		
+		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			wp_enqueue_script( 'acf-address-field' );
+		}
+	}
+	
+	/**
+	* Populates the fields array with defaults for this field type
+	*
+	* @param array $field
+	* @return array
+	*/
+	private function set_field_defaults( &$field ) {
+		$address_defaults = array(
 			'address1'    => array(
 				'label'         => __( 'Address 1', $this->l10n_domain ),
 				'default_value' => '',
@@ -172,46 +200,22 @@ class ACF_Address_Field extends acf_Field {
 				'separator'     => '',
 			),
 		);
-		
-		add_action( 'admin_print_scripts', array( &$this, 'admin_print_scripts' ), 12, 0 );
-		add_action( 'admin_print_styles', array( &$this, 'admin_print_styles' ), 12, 0 );
-	}
-	
-	/**
-	 * Registers and enqueues necessary CSS
-	 * 
-	 * This method is called by ACF when rendering a post add or edit screen.
-	 * We also call this method on the Acf Field Options screen as well in order
-	 * to style out Field options
-	 * 
-	 * @see acf_Field::admin_print_styles()
-	 */
-	public function admin_print_styles() {
-		global $pagenow;
 
-		wp_register_style( 'acf-address-field', $this->base_uri_abs . '/address-field.css' );
+		$layout_defaults = array(
+			0 => array( 0 => 'address1' ),
+			1 => array( 0 => 'address2' ),
+			2 => array( 0 => 'address3' ),
+			3 => array( 0 => 'city', 1 => 'state', 2 => 'postal_code', 3 => 'country' ),
+		);
 		
-		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
-			wp_enqueue_style( 'acf-address-field' );
-		}
-	}
-	
-	/**
-	 * Registers and enqueues necessary JavaScript
-	 * 
-	 * This method is called by ACF when rendering a post add or edit screen.
-	 * We also call this method on the Acf Field Options screen as well in order
-	 * to add the necessary JavaScript for address layout.
-	 * 
-	 * @see acf_Field::admin_print_scripts()
-	 */
-	public function admin_print_scripts() {
-		global $pagenow;
-		wp_register_script( 'acf-address-field', $this->base_uri_abs . '/address-field.js', array( 'jquery-ui-sortable' ) );
+		$field[ 'address_fields' ] = ( array_key_exists( 'address_fields' , $field ) && is_array( $field[ 'address_fields' ] ) ) ?
+			wp_parse_args( (array) $field[ 'address_fields' ], $address_defaults ) :
+			$address_defaults;
 		
-		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
-			wp_enqueue_script( 'acf-address-field' );
-		}
+		$field[ 'address_layout' ] = ( array_key_exists( 'address_layout', $field ) && is_array( $field[ 'address_layout' ] ) ) ?
+			(array) $field[ 'address_layout' ] : $layout_defaults;
+		
+		return $field;
 	}
 	
 	/**
@@ -220,13 +224,10 @@ class ACF_Address_Field extends acf_Field {
 	 * @see acf_Field::create_field()
 	 */
 	public function create_field( $field ) {
-		$fields = ( array_key_exists( 'address_fields' , $field ) && is_array( $field[ 'address_fields' ] ) ) ?
-			wp_parse_args( (array) $field[ 'address_fields' ], $this->address_defaults ) :
-			$this->address_defaults;
+		$this->set_field_defaults( $field );
 		
-		$layout = ( array_key_exists( 'address_layout', $field ) && is_array( $field[ 'address_layout' ] ) ) ?
-			(array) $field[ 'address_layout' ] : $this->address_default_layout;
-
+		$fields = $field[ 'address_fields' ];
+		$layout = $field[ 'address_layout' ];
 		$values = (array) $field[ 'value' ];
 
 		?>
@@ -254,13 +255,10 @@ class ACF_Address_Field extends acf_Field {
 	 * @param array $field
 	 */
 	public function create_options( $key, $field ) {
-		$fields = ( array_key_exists( 'address_fields' , $field ) && is_array( $field[ 'address_fields' ] ) ) ?
-			wp_parse_args( (array) $field[ 'address_fields' ], $this->address_defaults ) :
-			$this->address_defaults;
+		$this->set_field_defaults( $field );
 		
-		$layout = ( array_key_exists( 'address_layout', $field ) && is_array( $field[ 'address_layout' ] ) ) ?
-			(array) $field[ 'address_layout' ] : $this->address_default_layout;
-		
+		$fields = $field[ 'address_fields' ];
+		$layout = $field[ 'address_layout' ];
 		$missing = array_keys( $fields );
 		
 		?>
@@ -416,9 +414,9 @@ class ACF_Address_Field extends acf_Field {
 	 * @return array  
 	 */
 	public function get_value( $post_id, $field ) {
-		$fields = ( array_key_exists( 'address_fields' , $field ) && is_array( $field[ 'address_fields' ] ) ) ?
-			wp_parse_args( (array) $field[ 'address_fields' ], $this->address_defaults ) :
-			$this->address_defaults;
+		$this->set_field_defaults( $field );
+		
+		$fields = $field[ 'address_fields' ];
 		
 		$defaults = array();
 		foreach( $fields as $name => $settings )
@@ -438,12 +436,10 @@ class ACF_Address_Field extends acf_Field {
 	 * @param array $field
 	 */
 	public function get_value_for_api( $post_id, $field ) {
-		$fields = ( array_key_exists( 'address_fields' , $field ) && is_array( $field[ 'address_fields' ] ) ) ?
-			wp_parse_args( (array) $field[ 'address_fields' ], $this->address_defaults ) :
-			$this->address_defaults;
+		$this->set_field_defaults( $field );
 		
-		$layout = ( array_key_exists( 'address_layout', $field ) && is_array( $field[ 'address_layout' ] ) ) ?
-			(array) $field[ 'address_layout' ] : $this->address_default_layout;
+		$fields = $field[ 'address_fields' ];
+		$layout = $field[ 'address_layout' ];
 		
 		$values = $this->get_value( $post_id, $field );
 		
