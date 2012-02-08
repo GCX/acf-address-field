@@ -14,14 +14,6 @@ https://github.com/GCX/acf-address-field
 ### Bugs or Suggestions
 https://github.com/GCX/acf-address-field/issues
 
-Notice
--------
-
-The address field has default labels and css class names that are configurable per field.
-Currently the default values for these do not show up when adding a new field due to an
-issue with Advanced Custom Fields clearing all content from inputs on new fields.
-See [Field input defaults removed when clicking Add Field.](http://www.advancedcustomfields.com/support/discussion/1247/field-input-defaults-removed-when-clicking-add-field.)
-
 Installation
 ------------
 
