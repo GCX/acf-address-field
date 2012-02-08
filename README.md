@@ -8,10 +8,10 @@ The address field provides the ability to enter an address by component (street,
 postal code, country, ...), enable or disable components, and change the layout of the
 entered address (on the post screen) and printed address ( get_value() api call).
 
-= Source Repository on GitHub =
+### Source Repository on GitHub
 https://github.com/GCX/acf-address-field
 
-= Bugs or Suggestions =
+### Bugs or Suggestions
 https://github.com/GCX/acf-address-field/issues
 
 Notice
