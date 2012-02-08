@@ -1,5 +1,18 @@
 <?php
 /*
+* Plugin Name: Advanced Custom Fields - Address Field add-on
+* Plugin URI:  https://github.com/GCX/acf-address-field
+* Description: Adds an Address Field to Advanced Custom Fields. Pick and choose the components and layout of the address.
+* Author:      Brian Zoetewey
+* Author URI:  https://github.com/GCX
+* Version:     1.0
+* Text Domain: acf-address-field
+* Domain Path: /languages/
+* License:     Modified BSD
+*/
+?>
+<?php
+/*
  * Copyright (c) 2012, CAMPUS CRUSADE FOR CHRIST
  * All rights reserved.
  * 
@@ -37,10 +50,6 @@ if( !class_exists( 'ACF_Address_Field' ) && class_exists( 'acf_Field' ) ) :
  * This addon to Advanced Custom Fields adds the capability for
  * a multi-component address input. It has the ability to customize the
  * individual components and the layout of the address block.
- * 
- * This addon is self loading, just include the address-field.php file
- * in your functions.php or plugin and it will register itself with
- * Advanced Custom Fields.
  * 
  * @author Brian Zoetewey <brian.zoetewey@ccci.org>
  * @version 1.0

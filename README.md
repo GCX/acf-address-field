@@ -8,8 +8,11 @@ The address field provides the ability to enter an address by component (street,
 postal code, country, ...), enable or disable components, and change the layout of the
 entered address (on the post screen) and printed address ( get_value() api call).
 
-The address field is self registering meaning that there is no need to register it with
-Advanced Custom Fields, it will register itself.
+= Source Repository on GitHub =
+https://github.com/GCX/acf-address-field
+
+= Bugs or Suggestions =
+https://github.com/GCX/acf-address-field/issues
 
 Notice
 -------
@@ -19,14 +22,19 @@ Currently the default values for these do not show up when adding a new field du
 issue with Advanced Custom Fields clearing all content from inputs on new fields.
 See [Field input defaults removed when clicking Add Field.](http://www.advancedcustomfields.com/support/discussion/1247/field-input-defaults-removed-when-clicking-add-field.)
 
-Usage
--------
+Installation
+------------
 
-* Download or clone the acf-address-field repo to your plugin or theme:
-  * [acf-address-field.zip](https://github.com/GCX/acf-address-field/zipball/master) or
-  * `git clone git://github.com/GCX/acf-taxonomy-field.git acf-ddress-field`
-* Include the `address-field.php` file:  
-  `include_once( rtrim( dirname( __FILE__ ), '/' ) . '/acf-address-field/address-field.php' );`
+The Address Field plugin can be used as WordPress plugin or included in other plugins or themes.
+There is no need to call the Advanced Custom Fields `register_field()` method for this field.
+
+* WordPress plugin
+	1. Download the plugin and extract it to `/wp-content/plugins/` directory.
+	2. Activate the plugin through the `Plugins` menu in WordPress.
+* Added to a Theme or Plugin
+	1. Download the plugin and extract it to your theme or plugin directory.
+	2. Include the `address-field.php` file in you theme's `functions.php` or plugin file.  
+	   `include_once( rtrim( dirname( __FILE__ ), '/' ) . '/acf-address-field/address-field.php' );`
 
 Todo
 -------
@@ -35,7 +43,10 @@ Todo
 * Builtin Shortcode to render address field. Shortcode will also allow printing individual
   address components.
 
-Issues
--------
+Frequently Asked Questions
+--------------------------
 
-Report any issues or feature requests [here](https://github.com/GCX/acf-address-field/issues).
+### I've activated the plugin, but nothing happens!
+
+Make sure you have [Advanced Custom Fields](http://wordpress.org/extend/plugins/advanced-custom-fields/) installed and
+activated. This is not a standalone plugin for WordPress, it only adds additional functionality to Advanced Custom Fields.
