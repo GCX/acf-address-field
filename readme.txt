@@ -1,5 +1,5 @@
 === Advanced Custom Fields - Address Field add-on ===
-Contributors: omicron7
+Contributors: Omicron7
 Tags: acf, acf add-on, address, custom field, address field
 Requires at least: 3.0
 Tested up to: 3.3.1
