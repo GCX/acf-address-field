@@ -30,35 +30,6 @@
 		});
 	}
 	
-	// This sets the default values, ACF clears them on new fields
-	// see http://www.advancedcustomfields.com/support/discussion/1247/field-input-defaults-removed-when-clicking-add-field.
-	$('#acf_fields #add_field').live('click',function(){
-		
-		setTimeout(function() {
-			var new_field = $('#acf_fields div.field_clone').prev('.field');
-			
-			$('.address_label:input, .address_default_value:input, .address_class:input, .address_separator:input', new_field).each(function() {
-				var $this = $(this),
-					names = split_acf_name($this.attr('name')),
-					component = '';
-				
-				if($this.hasClass('address_label'))
-					component = 'label';
-				else if($this.hasClass('address_default_value'))
-					component = 'default_value';
-				else if($this.hasClass('address_class'))
-					component = 'class';
-				else
-					component = 'separator';
-
-				$this.val( acf_address_field_defaults[ names[2] ][ component ] );
-					
-			}).change();
-			
-		}, 100);
-			
-	});
-	
 	$('#acf_fields .address_enabled input[type="checkbox"]').live('change', function() {
 		var $this = $(this),
 			field = $this.closest('.field'),
