@@ -106,13 +106,29 @@
 		}).disableSelection();
 	}
 	
+	//Initialize existing address fields or fields that have changed to address fields
 	$('#acf_fields .field_type select.select').live('change', function() {
 		var $this = $(this),
 			field = $this.closest('.field');
 		
 		if($this.val() == 'address-field') {
-			init_address_layout( $('.address_layout', field) );
+			//If address-field already exists, initialize it
+			if($('.field_option_address-field', field).exists() ) {
+				init_address_layout( $('.address_layout', field) );
+			}
 		}
 	});
+	
+	//Listen to ajax requests and initialize and new address fields
+	$(document).bind('ajaxSuccess', function(e, xhr, settings) {
+		if( settings.url == ajaxurl && settings.data.indexOf('field_type=address-field') != -1 ) {
+			init_address_layout( $('.address_layout' ) );
+		}
+	});
+	
+	//Trigger change even to initialize all address fields on document.ready event.
+	$(function(){
+		$('#acf_fields .field_type select.select').trigger('change');
+	})
 	
 })(jQuery)
