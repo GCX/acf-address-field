@@ -2,8 +2,8 @@
 Contributors: Omicron7
 Tags: acf, acf add-on, address, custom field, address field
 Requires at least: 3.0
-Tested up to: 3.3.1
-Stable tag: 1.0
+Tested up to: 3.3.2
+Stable tag: 1.0.1
 
 Adds an Address Field to Advanced Custom Fields. Pick and choose the components and layout of the address.
 
@@ -51,6 +51,10 @@ activated. This is not a standalone plugin for WordPress, it only adds additiona
 4. `get_value()` API output.
 
 == Changelog ==
+
+= 1.0.1 =
+* Fixed issue with path and URI generation on Windows hosts.
+* Fixed issue caused by ACF loading new fields with AJAX. Drag and Drop should work again.
 
 = 1.0 =
 * Initial Release

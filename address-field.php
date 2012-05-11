@@ -5,7 +5,7 @@
 * Description: Adds an Address Field to Advanced Custom Fields. Pick and choose the components and layout of the address.
 * Author:      Brian Zoetewey
 * Author URI:  https://github.com/GCX
-* Version:     1.0
+* Version:     1.0.1
 * Text Domain: acf-address-field
 * Domain Path: /languages/
 * License:     Modified BSD
@@ -52,7 +52,7 @@ if( !class_exists( 'ACF_Address_Field' ) && class_exists( 'acf_Field' ) ) :
  * individual components and the layout of the address block.
  * 
  * @author Brian Zoetewey <brian.zoetewey@ccci.org>
- * @version 1.0
+ * @version 1.0.1
  */
 class ACF_Address_Field extends acf_Field {
 	/**
