@@ -96,7 +96,7 @@ class ACF_Address_Field extends acf_Field {
 		$this->base_dir = rtrim( dirname( realpath( __FILE__ ) ), DIRECTORY_SEPARATOR );
 		
 		//Build the base relative uri by searching backwards until we encounter the wordpress ABSPATH
-		$root = array_pop( explode( DIRECTORY_SEPARATOR, rtrim( ABSPATH, DIRECTORY_SEPARATOR ) ) );
+		$root = array_pop( explode( DIRECTORY_SEPARATOR, rtrim( ABSPATH, '/' ) ) );
 		$path_parts = explode( DIRECTORY_SEPARATOR, $this->base_dir );
 		$parts = array();
 		while( $part = array_pop( $path_parts ) ) {
